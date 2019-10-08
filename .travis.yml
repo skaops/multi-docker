@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t skaops/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true skaops/react-test npm test -- --coverage
+
+after_sucess:
+  - docker build -t skaops/multi-client ./client
+  - docker build -t skaops/multi-nginx ./nginx
+  - docker build -t skaops/multi-server ./server
+  - docker build -t skaops/multi-worker ./worker
+  # Log in to Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push skaops/multi-client
+  - docker push skaops/multi-nginx
+  - docker push skaops/multi-server
+  - docker push skaops/multi-worker
