@@ -3,19 +3,19 @@ services:
   - docker
 
 before_install:
-  - docker build -t skaops/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t skaops653/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true skaops/react-test npm test -- --coverage
+  - docker run -e CI=true skaops653/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t skaops/multi-client ./client
-  - docker build -t skaops/multi-nginx ./nginx
-  - docker build -t skaops/multi-server ./server
-  - docker build -t skaops/multi-worker ./worker
+  - docker build -t skaops653/multi-client ./client
+  - docker build -t skaops653/multi-nginx ./nginx
+  - docker build -t skaops653/multi-server ./server
+  - docker build -t skaops653/multi-worker ./worker
   # Log in to Docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push skaops/multi-client
-  - docker push skaops/multi-nginx
-  - docker push skaops/multi-server
-  - docker push skaops/multi-worker
+  - docker push skaops653/multi-client
+  - docker push skaops653/multi-nginx
+  - docker push skaops653/multi-server
+  - docker push skaops653/multi-worker
