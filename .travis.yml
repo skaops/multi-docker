@@ -8,7 +8,7 @@ before_install:
 script:
   - docker run -e CI=true skaops/react-test npm test -- --coverage
 
-after_sucess:
+after_success:
   - docker build -t skaops/multi-client ./client
   - docker build -t skaops/multi-nginx ./nginx
   - docker build -t skaops/multi-server ./server
